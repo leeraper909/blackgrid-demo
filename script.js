@@ -1,0 +1,1 @@
+// Placeholder interactivity (e.g. toggle Lock Mode)
