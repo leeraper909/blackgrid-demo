@@ -1,0 +1,1 @@
+// JS animation for CloneTrap entrance effect
