@@ -2,23 +2,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlackGrid 2030 Demo</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BlackGrid Demo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(145deg, #0b1c2e, #07111c);
+      color: #00ffcc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      text-align: center;
+      margin-top: 0;
+    }
+    .defcon-bar {
+      width: 80%;
+      height: 20px;
+      background: #003b33;
+      border: 1px solid #00ffcc;
+      margin-top: 2rem;
+      position: relative;
+      animation: pulse 2s infinite ease-in-out;
+    }
+    .defcon-bar::after {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 30%;
+      background: #00ffcc;
+      left: 0;
+      animation: slide 4s infinite ease-in-out;
+    }
+    @keyframes slide {
+      0%, 100% { left: 0; }
+      50% { left: 70%; }
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 5px #00ffcc; }
+      50% { box-shadow: 0 0 20px #00ffcc; }
+    }
+  </style>
 </head>
 <body>
-    <header><h1>Welcome to BlackGrid – The Sovereign AI Defence Demo</h1></header>
-    <nav>
-        <ul>
-            <li><a href="trustpack.html">Trust Pack</a></li>
-            <li><a href="defcon-status.html">DEFCON Status</a></li>
-            <li><a href="cloneposter.html">CloneTrap Poster</a></li>
-        </ul>
-    </nav>
-    <main>
-        <p>This is the elite 2030-ready demo site. All links and pages are live and functional.</p>
-    </main>
-    <script src="script.js"></script>
+  <h1>Welcome to the BlackGrid Demo Environment</h1>
+  <p>This NDA-protected space simulates our sovereign AI defence system. Live DEFCON logic and threat interception visuals are embedded below.</p>
+  <div class="defcon-bar"></div>
 </body>
 </html>
