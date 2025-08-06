@@ -4,60 +4,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BlackGrid Demo</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(145deg, #0b1c2e, #07111c);
-      color: #00ffcc;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      text-align: center;
-      margin-top: 0;
-    }
-    .defcon-bar {
-      width: 80%;
-      height: 20px;
-      background: #003b33;
-      border: 1px solid #00ffcc;
-      margin-top: 2rem;
-      position: relative;
-      animation: pulse 2s infinite ease-in-out;
-    }
-    .defcon-bar::after {
-      content: '';
-      position: absolute;
-      height: 100%;
-      width: 30%;
-      background: #00ffcc;
-      left: 0;
-      animation: slide 4s infinite ease-in-out;
-    }
-    @keyframes slide {
-      0%, 100% { left: 0; }
-      50% { left: 70%; }
-    }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 5px #00ffcc; }
-      50% { box-shadow: 0 0 20px #00ffcc; }
-    }
-  </style>
+  <title>BlackGrid Demo Environment</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Welcome to the BlackGrid Demo Environment</h1>
-  <p>This NDA-protected space simulates our sovereign AI defence system. Live DEFCON logic and threat interception visuals are embedded below.</p>
-  <div class="defcon-bar"></div>
+  <div class="hero">
+    <h1>Welcome to the BlackGrid Demo Environment</h1>
+    <p>This NDA-protected space simulates our sovereign AI defence system.</p>
+    <p class="sub">Live DEFCON logic and threat interception visuals are embedded below.</p>
+    <div class="progress-bar">
+      <div class="bar-fill"></div>
+    </div>
+  </div>
+
+  <div class="modules">
+    <div class="module">DEFCON Radar: LIVE</div>
+    <div class="module">Lock Mode: ENABLED</div>
+    <div class="module">CloneTrap Visual: ACTIVE</div>
+    <div class="module">Trust Pack: <a href="trustpack.html" target="_blank">Open</a></div>
+  </div>
+
+  <footer>BlackGrid – Always watching. Always learning. Never sleeping.</footer>
+  <script src="script.js"></script>
 </body>
 </html>

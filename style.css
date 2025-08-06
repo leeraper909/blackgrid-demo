@@ -1,5 +1,45 @@
 
-body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #111; color: #eee; }
-header, nav, main { padding: 20px; }
-a { color: #00d4ff; text-decoration: none; }
-a:hover { text-decoration: underline; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0c111a;
+  color: #00ffc3;
+  text-align: center;
+  padding: 2em;
+}
+.hero h1 {
+  font-size: 2.5em;
+  color: #00ffc3;
+}
+.sub {
+  font-size: 1.1em;
+  margin-bottom: 2em;
+}
+.progress-bar {
+  width: 60%;
+  margin: 1em auto 3em;
+  background: #003f3f;
+  border-radius: 10px;
+}
+.bar-fill {
+  width: 45%;
+  height: 20px;
+  background: #00ffc3;
+  border-radius: 10px;
+}
+.modules {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-bottom: 4em;
+}
+.module {
+  background: #1a1f2e;
+  padding: 1em;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00ffc3;
+}
+footer {
+  color: #555;
+  font-size: 0.9em;
+}
