@@ -1,45 +1,98 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap');
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #0c111a;
-  color: #00ffc3;
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(160deg, #0c0c0c, #1a1a1a);
+  color: #e0e0e0;
   text-align: center;
-  padding: 2em;
+  overflow-x: hidden;
 }
-.hero h1 {
-  font-size: 2.5em;
-  color: #00ffc3;
+header {
+  padding: 60px 20px 20px;
+  animation: fadeIn 2s ease-in;
 }
-.sub {
-  font-size: 1.1em;
-  margin-bottom: 2em;
+.animate-title {
+  font-size: 3rem;
+  color: #00f5ff;
+  text-shadow: 0 0 10px #00f5ff;
 }
-.progress-bar {
+.tagline {
+  font-size: 1.2rem;
+  color: #aaa;
+}
+.hero {
+  padding: 40px 0;
+  position: relative;
+}
+.defcon-img {
+  width: 90%;
+  max-width: 1000px;
+  border: 4px solid #00f5ff;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(0,255,255,0.3);
+  margin-bottom: 20px;
+}
+.glow-bar {
+  height: 10px;
   width: 60%;
-  margin: 1em auto 3em;
-  background: #003f3f;
-  border-radius: 10px;
+  margin: 0 auto;
+  background: linear-gradient(to right, #00f5ff, #004d99);
+  box-shadow: 0 0 20px #00f5ff;
+  border-radius: 5px;
+  animation: pulse 2s infinite;
 }
-.bar-fill {
-  width: 45%;
-  height: 20px;
-  background: #00ffc3;
-  border-radius: 10px;
+.features {
+  background: #111;
+  padding: 40px 20px;
 }
-.modules {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  margin-bottom: 4em;
+.features h2 {
+  color: #00f5ff;
+  font-size: 2rem;
 }
-.module {
-  background: #1a1f2e;
-  padding: 1em;
-  border-radius: 8px;
-  box-shadow: 0 0 10px #00ffc3;
+.features ul {
+  list-style: none;
+  padding: 0;
+}
+.features li {
+  margin: 15px 0;
+  font-size: 1.1rem;
 }
 footer {
-  color: #555;
-  font-size: 0.9em;
+  padding: 30px;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 20px #00f5ff; }
+  50% { box-shadow: 0 0 40px #00bfff; }
+  100% { box-shadow: 0 0 20px #00f5ff; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.trust-score-widget {
+  background: #141414;
+  padding: 50px 20px;
+}
+.trust-score-widget h2 {
+  color: #00f5ff;
+}
+.trust-score-circle {
+  width: 160px;
+  height: 160px;
+  margin: 20px auto;
+  border-radius: 50%;
+  background: radial-gradient(circle, #00f5ff, #003b5c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #fff;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+  animation: pulse 2s infinite;
 }
