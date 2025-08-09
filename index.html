@@ -1,30 +1,167 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BlackGrid Demo Environment</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="hero">
-    <h1>Welcome to the BlackGrid Demo Environment</h1>
-    <p>This NDA-protected space simulates our sovereign AI defence system.</p>
-    <p class="sub">Live DEFCON logic and threat interception visuals are embedded below.</p>
-    <div class="progress-bar">
-      <div class="bar-fill"></div>
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BlackGrid Demo Portal — NDA Gate & Live Modules</title>
+<meta name="description" content="Secure demo portal with NDA gate, Lock Mode, DEFCON pulse, and module click logic.">
+<style>
+:root{
+  --bg: #0b0f17; --surface:#121826; --muted:#1a2235; --text:#e6eefc; --sub:#a4b2d1;
+  --brand:#64d2ff; --accent:#9a7bff; --ok:#22c55e; --warn:#f59e0b; --bad:#ef4444;
+  --shadow: 0 10px 30px rgba(0,0,0,.45);
+}
+:root.light{
+  --bg:#f7f9ff; --surface:#ffffff; --muted:#eef2ff; --text:#0c1322; --sub:#3a4a6a;
+  --brand:#0066ff; --accent:#6d28d9; 
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+background:linear-gradient(180deg,var(--bg),#0b1224 60%,var(--bg));color:var(--text)}
+a{color:var(--brand);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+.header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,var(--surface),rgba(0,0,0,0));
+backdrop-filter:blur(8px); border-bottom:1px solid rgba(255,255,255,.06)}
+.nav{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:14px 24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.4px}
+.logo svg{width:28px;height:28px;filter:drop-shadow(0 4px 10px rgba(100,210,255,.6))}
+.actions{display:flex;align-items:center;gap:10px}
+.btn{padding:10px 14px;border-radius:14px;background:var(--muted);color:var(--text);
+border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow);font-weight:600}
+.btn:hover{transform:translateY(-1px);}
+.toggle{cursor:pointer}
+.hero{padding:72px 24px 36px}
+.h1{font-size:42px;line-height:1.1;margin:0 0 12px;font-weight:800}
+.h2{font-size:28px;opacity:.92;margin:0 0 8px}
+.p{font-size:16px;color:var(--sub);max-width:850px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.card{grid-column:span 4;background:linear-gradient(180deg,var(--surface),#0d1325);padding:18px;border-radius:20px;border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)}
+.card h3{margin:6px 0 8px}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(100,210,255,.12);border:1px solid rgba(100,210,255,.25);font-size:12px;font-weight:700;color:var(--text)}
+.footer{padding:24px;color:var(--sub);border-top:1px solid rgba(255,255,255,.06);margin-top:24px}
+.defcon{position:sticky;top:64px;z-index:40;background:linear-gradient(90deg,#00ffb2,#eaff00,#ffb200,#ff0059);height:10px;border-radius:999px;margin:0 24px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.defcon .pulse{width:20%;height:100%;background:rgba(255,255,255,.6);filter:blur(6px);animation:pulse 3s infinite}
+@keyframes pulse{0%{transform:translateX(-100%)}100%{transform:translateX(600%)}}
+.globe{height:300px;border-radius:24px;border:1px solid rgba(255,255,255,.08);display:grid;place-items:center;background:radial-gradient(120% 120% at 80% 10%, rgba(100,210,255,.2), transparent), radial-gradient(120% 120% at 20% 90%, rgba(154,123,255,.18), transparent), linear-gradient(180deg,var(--surface),#0c1222)}
+.globe svg{width:85%;max-width:680px;opacity:.92;filter:drop-shadow(0 12px 30px rgba(0,0,0,.5))}
+.partners{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.partner{height:52px;border-radius:12px;background:var(--muted);border:1px dashed rgba(255,255,255,.1);display:grid;place-items:center;color:var(--sub);font-size:12px}
+.tile{background:linear-gradient(180deg,var(--surface),#0d1426);border:1px solid rgba(255,255,255,.08);padding:16px;border-radius:16px;box-shadow:var(--shadow);transition:transform .18s ease}
+.tile:hover{transform:translateY(-4px) scale(1.01)}
+.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(255,255,255,.08);padding:2px 6px;border-radius:8px}
+.back{display:inline-flex;align-items:center;gap:8px;margin:8px 0 0}
+.notice{padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--sub);margin:8px 0}
+@media (max-width: 900px){
+ .grid{grid-template-columns:repeat(6,1fr)}
+ .card{grid-column:span 6}
+ .partners{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head><body>
+<header class="header">
+  <nav class="nav">
+    <div class="logo">
+      <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#64d2ff"/><path d="M6 17h20" stroke="#0b0f17" stroke-width="3"/></svg>
+      <span>Demo Portal</span>
+    </div>
+    <div class="actions">
+      <a href="../blackgrid-main/index.html" class="btn">Back to Home</a>
+      <button class="btn toggle" data-toggle>Toggle Theme</button>
+    </div>
+  </nav>
+</header>
+
+<div class="defcon" data-defcon><div class="pulse"></div></div>
+
+<section class="hero container">
+  <h1 class="h1">Secure Demo Access</h1>
+  <p class="p">Enter NDA code to view live modules. (Safe‑mode simulation enabled.)</p>
+  <div class="grid">
+    <div class="card" style="grid-column:span 6">
+      <h3>NDA Gate</h3>
+      <p class="p">Use code shared privately. Public cannot guess.</p>
+      <div style="display:flex;gap:8px">
+        <input id="nda" placeholder="Enter NDA code" style="flex:1;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:var(--muted);color:var(--text)"/>
+        <button class="btn" onclick="checkNDA()">Unlock</button>
+      </div>
+      <div id="nda-out" class="notice">Waiting for code…</div>
+    </div>
+    <div class="card" style="grid-column:span 6">
+      <h3>Lock Mode</h3>
+      <p class="p">Visual indicator of hardened state for demo.</p>
+      <div class="tag"><strong>Locked</strong></div>
     </div>
   </div>
+</section>
 
-  <div class="modules">
-    <div class="module">DEFCON Radar: LIVE</div>
-    <div class="module">Lock Mode: ENABLED</div>
-    <div class="module">CloneTrap Visual: ACTIVE</div>
-    <div class="module">Trust Pack: <a href="trustpack.html" target="_blank">Open</a></div>
+<section class="container grid" id="modules" style="display:none">
+  <div class="tile" data-module="CloneTrap">
+    <h3>CloneTrap™</h3><p class="p">Blocks fake portals at DNS/UI level.</p>
   </div>
+  <div class="tile" data-module="Watchtower AI">
+    <h3>Watchtower AI</h3><p class="p">Flags AI-written fraud before inbox.</p>
+  </div>
+  <div class="tile" data-module="PersonaShield">
+    <h3>PersonaShield</h3><p class="p">Detects deepfaked credentials.</p>
+  </div>
+  <div class="tile" data-module="TrustOS">
+    <h3>TrustOS</h3><p class="p">Behavioural session gating.</p>
+  </div>
+</section>
 
-  <footer>BlackGrid – Always watching. Always learning. Never sleeping.</footer>
-  <script src="script.js"></script>
-</body>
-</html>
+<section class="container" id="module-output"></section>
+
+<footer class="footer container">
+  <div class="back"><a href="../blackgrid-main/index.html">Back to Home</a></div>
+</footer>
+
+<script>
+
+const toggle = document.querySelector('[data-toggle]');
+toggle?.addEventListener('click', ()=>{
+  document.documentElement.classList.toggle('light');
+  localStorage.setItem('theme', document.documentElement.classList.contains('light')?'light':'dark');
+});
+const saved = localStorage.getItem('theme'); if(saved==='light'){document.documentElement.classList.add('light')}
+
+const defconState = { level: 3 };
+function setDEFCON(lvl){
+  defconState.level = Math.max(1, Math.min(5, lvl));
+  document.querySelectorAll('[data-defcon]').forEach(el=>{
+    el.setAttribute('data-defcon', String(defconState.level));
+    const tag = el.querySelector('.tag strong');
+    if(tag) tag.textContent = 'DEFCON ' + defconState.level;
+  });
+}
+window.setDEFCON = setDEFCON;
+
+document.querySelectorAll('[data-module]').forEach(tile=>{
+  tile.addEventListener('click', ()=>{
+    const m = tile.getAttribute('data-module');
+    const out = document.querySelector('#module-output');
+    if(!out) return;
+    out.innerHTML = `<div class="notice"><strong>Module loaded:</strong> ${m}. Trust Score sync ready. (Simulated)</div>`;
+  });
+});
+
+function shutdownRegion(label='Region'){
+  const out = document.querySelector('#globe-output');
+  if(!out) return;
+  out.innerHTML = `<div class="notice"><strong>Action:</strong> Geo-fence applied to <span class="kbd">${label}</span>. Routes throttled + identity gates raised. (Simulated)</div>`;
+}
+window.shutdownRegion = shutdownRegion;
+
+
+function checkNDA(){
+  const code = document.getElementById('nda').value.trim();
+  const out = document.getElementById('nda-out');
+  if(code.length < 6){ out.textContent='Code too short'; return; }
+  if(code.length >= 8){
+    out.innerHTML='Access granted (simulated). Modules unlocked.';
+    document.getElementById('modules').style.display='grid';
+    setDEFCON(3);
+  }else{
+    out.textContent='Invalid code';
+  }
+}
+</script>
+</body></html>
