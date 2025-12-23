@@ -1,0 +1,38 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BlackGrid — Executive Power View</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>:root{--bg:#0b0f14;--fg:#e7eef6;--muted:#93a1b1;--card:#0f1520;--ok:#32d583;--guard:#84cc16;--high:#f59e0b;--sev:#ef4444;--crit:#991b1b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,Segoe UI,Roboto}header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #101826;background:linear-gradient(180deg,#0b111a,#0b0f14)}.wrap{max-width:1200px;margin:0 auto;padding:18px;display:grid;grid-template-columns:360px 1fr;gap:18px}.card{background:radial-gradient(900px 400px at -200px -200px,#0f2137,transparent),var(--card);border:1px solid #142233;border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,.35);padding:14px}.band{display:inline-block;padding:4px 10px;border-radius:999px;font-weight:600}.low{background:var(--ok)}.guard{background:var(--guard)}.high{background:var(--high)}.severe{background:var(--sev)}.critical{background:var(--crit)}.row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#0b111a;border:1px solid #142233;border-radius:12px;padding:10px 12px;margin-top:8px}.sev{width:10px;height:10px;border-radius:50%}.btn{border:1px solid #2a3a4f;background:#0e1622;color:var(--fg);padding:8px 12px;border-radius:10px;cursor:pointer}.sub{color:var(--muted);font-size:13px}#gauge{width:100%;height:220px;display:block}#map{width:100%;height:420px;border-radius:12px;overflow:hidden}</style>
+<header><b>BlackGrid — Executive Power View</b><div><button class="btn" id="tour">Tour</button> <button class="btn" id="refresh">Refresh</button></div></header>
+<div class="wrap">
+  <section class="card">
+    <canvas id="gauge"></canvas>
+    <div class="sub" id="band"></div>
+    <div class="card" style="margin-top:10px"><div class="sub" id="tl">Threat Level (last 15m)</div><div id="tlBand" class="band"></div></div>
+    <div class="card" style="margin-top:10px"><div class="sub">Recent Alerts</div><div id="alerts"></div></div>
+  </section>
+  <section class="card"><div id="map"></div><div class="sub" style="margin-top:8px">Bands: 0–24 Low, 25–49 Guard, 50–74 High, 75–89 Severe, 90–100 Critical.</div></section>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const qs=new URLSearchParams(location.search),api=qs.get("api")||"/demo.json",$=s=>document.querySelector(s);
+function band(score){if(score<=24)return["low","Low","#32d583"];if(score<=49)return["guard","Guard","#84cc16"];if(score<=74)return["high","High","#f59e0b"];if(score<=89)return["severe","Severe","#ef4444"];return["critical","Critical","#991b1b"];}
+function drawGauge(el,score){const c=el.getContext("2d"),W=el.width=el.clientWidth,H=el.height=el.clientHeight,cx=W/2,cy=H*0.85,r=Math.min(W,H*1.6)/2;c.clearRect(0,0,W,H);c.lineWidth=18;c.strokeStyle="#142233";c.beginPath();c.arc(cx,cy,r,Math.PI,2*Math.PI);c.stroke();const b=band(score);c.strokeStyle=b[2];c.beginPath();c.arc(cx,cy,r,Math.PI,Math.PI+(score/100)*Math.PI);c.stroke();c.fillStyle="#e7eef6";c.font="700 44px system-ui";c.textAlign="center";c.fillText(String(score),cx,cy-16);c.font="600 14px system-ui";c.fillStyle="#93a1b1";c.fillText("Overall Risk",cx,cy+20);}
+function sevDot(n){if(n<=24)return"#32d583";if(n<=49)return"#84cc16";if(n<=74)return"#f59e0b";if(n<=89)return"#ef4444";return"#991b1b";}
+async function load(){const res=await fetch(api,{cache:"no-store"}),data=await res.json(),score=Number(data?.threat?.score||0);
+  drawGauge(document.getElementById("gauge"),score);const b=band(score);
+  document.getElementById("band").innerHTML=`<span class="band ${b[0]}">${b[1]}</span>`;
+  const tl=document.getElementById("tlBand"); tl.className="band "+b[0]; tl.textContent=b[1];
+  document.getElementById("tl").textContent=data?.threat?.level_label||"Threat Level (last 15m)";
+  const host=document.getElementById("alerts"); host.innerHTML="";
+  (data?.alerts||[]).slice(0,6).forEach(a=>{const row=document.createElement("div");row.className="row";
+    const left=document.createElement("div"); left.innerHTML=`<div class="sev" style="background:${sevDot(a.severity||0)};display:inline-block;margin-right:8px"></div><b>${a.title||"Alert"}</b><div class="sub">${a.detail||""}</div>`;
+    const ts=document.createElement("div"); ts.className="sub"; ts.textContent=(a.ts||"").replace("T"," ").replace("Z"," UTC"); row.append(left,ts); host.append(row);});
+  const m=L.map("map",{zoomControl:true,scrollWheelZoom:false}).setView([54.5,-3.1],5);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"&copy; OpenStreetMap",maxZoom:18}).addTo(m);
+  (data?.radar||[]).forEach(p=>{const s=Math.max(8,Math.min(28,Math.round((p.severity||0)/4)));
+    L.circleMarker([p.lat,p.lng],{radius:s,color:sevDot(p.severity||0),fillColor:sevDot(p.severity||0),fillOpacity:0.45,weight:2})
+    .bindPopup(`<b>${p.label||"Event"}</b><br>Sector: ${p.sector||"-"}<br>Severity: ${p.severity||0}<br>Updated: ${p.updated||"-"}`).addTo(m);});}
+document.getElementById("refresh").onclick=()=>location.reload();
+document.getElementById("tour").onclick=()=>alert("Gauge = overall risk (0–100). Band colours match map; use ?api=<url> to switch feeds.");
+load(); addEventListener("resize",()=>drawGauge(document.getElementById("gauge"),0));
+</script>

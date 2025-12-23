@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title id="title">HARD TEST</title>
+<style>
+/* SCREAMING STYLES TO PROVE CSS APPLIES */
+html,body{height:100%} body{margin:0;background:#11131a;color:#e7eef6;font:18px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+h1{margin:16px 0;font-size:28px}
+.box{margin:16px;padding:16px;border:3px dashed #f59e0b;border-radius:14px;background:#0f172a}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;background:#22c55e;color:#00140a;font-weight:700;margin-left:10px}
+#map{height:360px;border-radius:12px;margin-top:12px}
+</style>
+</head><body>
+<div class="box">
+  <h1>Hard Test Page <span id="cssOK" class="badge">CSS OK?</span></h1>
+  <div id="jsStatus">JS NOT RUN</div>
+  <div id="info" class="small">If JS runs, hash becomes <code>#jsok</code> and this message changes.</div>
+</div>
+
+<div class="box">
+  <div><b>JSON endpoint:</b> <code id="apiTxt">/partner/demo.json</code></div>
+  <div id="jsonPing" style="margin-top:8px">Waiting…</div>
+  <div id="map"></div>
+</div>
+
+<!-- external assets -->
+<link rel="stylesheet" href="/partner/vendor/leaflet/leaflet.css?v=HARD1">
+<script src="/partner/vendor/leaflet/leaflet.js?v=HARD1"></script>
+<script>
+// minimal beacon to prove JS executes
+(function(){
+  document.getElementById("jsStatus").textContent = "JS RUNNING";
+  if (location.hash !== "#jsok") { history.replaceState(null,"",location.pathname + location.search + "#jsok"); }
+
+  // fetch demo.json to prove data path
+  const api = new URLSearchParams(location.search).get("api") || "/partner/demo.json";
+  document.getElementById("apiTxt").textContent = api;
+  fetch(api, {cache:"no-store"}).then(r => r.json()).then(j => {
+    document.getElementById("jsonPing").textContent = "JSON OK • threat.score=" + (j.threat && j.threat.score);
+  }).catch(e => { document.getElementById("jsonPing").textContent = "JSON FAIL • " + e; });
+
+  // quick map to prove Leaflet loads
+  try {
+    const map = L.map("map",{zoomControl:true,attributionControl:true}).setView([52.5,-1.5],6);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {maxZoom:19,attribution:"© OpenStreetMap"}).addTo(map);
+  } catch (e) {
+    document.getElementById("jsonPing").textContent = "Leaflet FAIL • " + e;
+  }
+})();
+</script>
+<!-- keep app.js last (original UI) -->
+<script src="/partner/assets/app.js?v=HARD1"></script>
+</body></html>

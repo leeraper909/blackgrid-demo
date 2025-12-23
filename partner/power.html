@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title id="title">CyberLab — Powered by BlackGrid</title>
+<link rel="stylesheet" href="/partner/vendor/leaflet/leaflet.css?v=1">
+<style>
+:root{--bg:#0b1220;--fg:#e7eef6;--muted:#99a7b5;--card:#101a2b}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1200px;margin:24px auto;padding:0 16px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:24px} .card{background:var(--card);border-radius:14px;padding:16px;box-shadow:0 4px 24px rgba(0,0,0,.35)}
+h1{margin:0 0 8px 0}.sub{opacity:.75}.pill{display:inline-block;background:#ef4444;color:#fff;padding:2px 8px;border-radius:999px;margin-right:6px;font-weight:700}
+#gauge{width:100%;height:260px;display:block} #map{height:520px;border-radius:12px} pre{white-space:pre-wrap;margin:0}
+.btn{background:#0f172a;color:#e7eef6;border:1px solid #243b53;padding:6px 10px;border-radius:10px;margin-right:8px;cursor:pointer}
+</style></head><body>
+<div class="wrap">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h1>CyberLab — Powered by BlackGrid</h1>
+    <div><button class="btn" onclick="location.hash=\"#tour\"">Tour</button>
+         <button class="btn" onclick="location.reload()">Refresh</button></div>
+  </div>
+  <div class="sub">Always Watching. Always Learning. Never Sleeping.</div>
+  <div class="row" style="margin-top:16px">
+    <div class="card">
+      <canvas id="gauge" width="520" height="280"></canvas>
+      <div class="sub" style="margin-top:8px">Bands: 0–24 Low, 25–49 Guard, 50–74 High, 75–89 Severe, 90–100 Critical.</div>
+      <div class="card" style="margin-top:12px"><div><span class="pill" id="tlBand">—</span>
+        <b id="tlLabel">Threat Level (last 15m)</b> — <span id="trend">—</span></div></div>
+      <div class="card" style="margin-top:12px"><b>Recent Alerts</b><pre id="alerts" class="sub">—</pre></div>
+    </div>
+    <div class="card">
+      <div id="map"></div>
+      <div class="sub" style="margin-top:8px">Live radar for your assets. Click markers for details.</div>
+    </div>
+  </div>
+</div>
+<script src="/partner/vendor/leaflet/leaflet.js?v=1"></script>
+<script src="/partner/assets/app.js?v=1"></script>
+</body></html>
