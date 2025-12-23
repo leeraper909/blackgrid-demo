@@ -1,0 +1,7 @@
+window.BLACKGRID_CONFIG = {
+  ENV: "DEV",
+  PROVIDER: "LOCAL",
+  API_BASE: "",
+  MODE: "SIMULATED",
+  LOG_LEVEL: "INFO"
+};

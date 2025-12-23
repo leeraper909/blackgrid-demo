@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BlackGrid Health</title></head>
+<body style="font-family:system-ui;margin:24px;">
+<h1>BlackGrid Health</h1>
+<p>Status: <b>OK</b></p>
+<pre id="cfg"></pre>
+<script src="/config/config.js"></script>
+<script>
+document.getElementById("cfg").textContent = JSON.stringify(window.BLACKGRID_CONFIG, null, 2);
+</script>
+</body></html>
